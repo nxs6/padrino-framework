@@ -121,7 +121,7 @@ module Padrino
       #   hidden_form_method_field('delete')
       #
       def hidden_form_method_field(desired_method)
-        return ActiveSupport::SafeBuffer.new if desired_method.blank? || desired_method.to_s =~ /get|post/i
+        return ActiveSupport::SafeBuffer.new if desired_method.nil? || desired_method.to_s =~ /get|post/i
         hidden_field_tag(:_method, :value => desired_method)
       end
 
@@ -144,8 +144,7 @@ module Padrino
       #
       def field_set_tag(*args, &block)
         options = args.extract_options!
-        legend_text = args.first
-        legend_html = legend_text.blank? ? ActiveSupport::SafeBuffer.new : content_tag(:legend, legend_text)
+        legend_html = args.empty? ? ActiveSupport::SafeBuffer.new : content_tag(:legend, args.first)
         concat_content content_tag(:fieldset, legend_html << capture_html(&block), options)
       end
 

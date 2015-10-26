@@ -31,7 +31,7 @@ module Padrino
         if in_app_root?
           @_components = options.dup.slice(*self.class.component_types)
           @app_name = (options[:app] || "App").gsub(/\W/, '_').camelize
-          if @_components.values.delete_if(&:blank?).empty?
+          if @_components.values.delete_if(&:empty?).empty?
             self.class.start(["-h"])
             say
             say "Current Selected Components:"
@@ -44,7 +44,7 @@ module Padrino
           end
 
           self.class.component_types.each do |comp|
-            next if @_components[comp].blank?
+            next if @_components[comp].empty?
 
             choice = @_components[comp] = resolve_valid_choice(comp)
             existing = fetch_component_choice(comp)

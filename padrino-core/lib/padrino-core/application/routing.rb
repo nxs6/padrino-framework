@@ -376,7 +376,7 @@ module Padrino
           new_url << conform_uri(uri_root) if defined?(uri_root)
           new_url << url
         else
-          url.blank? ? '/' : url
+          url.empty? ? '/' : url
         end
       end
 
@@ -397,6 +397,7 @@ module Padrino
 
       private
 
+      # temporary variables named @_parent, @_provides, @_use_format, @_cache, @_expires, @_map, @_conditions, @_accepts, @_params
       CONTROLLER_OPTIONS = [ :parent, :provides, :use_format, :cache, :expires, :map, :conditions, :accepts, :params ].freeze
 
       # Saves controller options, yields the block, restores controller options.
@@ -622,7 +623,7 @@ module Padrino
 
           unless controller.empty?
             # Now we need to add our controller path only if not mapped directly
-            if map.blank? and !absolute_map
+            if !map && !absolute_map
               controller_path = controller.join("/")
               path.gsub!(%r{^\(/\)|/\?}, "")
               path = File.join(controller_path, path)  unless @_map
@@ -636,7 +637,7 @@ module Padrino
           end
 
           # Add any controller level map to the front of the path.
-          path = "#{@_map}/#{path}".squeeze('/') unless absolute_map or @_map.blank?
+          path = "#{@_map}/#{path}".squeeze('/') unless absolute_map || !@_map
 
           # Small reformats
           path.gsub!(%r{/\?$}, '(/)')                  # Remove index path
@@ -653,7 +654,7 @@ module Padrino
         name = options.delete(:name) if name.nil? && options.key?(:name)
         if name
           controller_name = controller.join("_")
-          name = "#{controller_name} #{name}".to_sym unless controller_name.blank?
+          name = "#{controller_name} #{name}".to_sym unless controller_name.empty?
         end
 
         options[:default_values] = @_defaults unless options.has_key?(:default_values)
@@ -954,7 +955,7 @@ module Padrino
           @params, @layout = original_params, parent_layout
         end
 
-        if routes.present?
+        unless routes.empty?
           verb = request.request_method
           candidacies, allows = routes.partition{|route| route.verb == verb }
           if candidacies.empty?
@@ -998,7 +999,7 @@ module Padrino
       end
 
       def captures_from_params(params)
-        if params[:captures].instance_of?(Array) && params[:captures].present?
+        if params[:captures].instance_of?(Array) && !params[:captures].empty?
           params.delete(:captures)
         else
           params.values_at(*route.matcher.names).flatten

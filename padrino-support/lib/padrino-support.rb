@@ -5,7 +5,6 @@ require 'active_support/core_ext/hash/keys'                 # symbolize_keys
 require 'active_support/core_ext/hash/indifferent_access'   # params[:foo]
 require 'active_support/core_ext/hash/slice'                # slice
 require 'active_support/core_ext/array/extract_options'     # Array#extract_options!
-require 'active_support/core_ext/object/blank'              # present?
 require 'active_support/core_ext/string/output_safety'      # SafeBuffer and html_safe
 
 # Remove these on 0.14:

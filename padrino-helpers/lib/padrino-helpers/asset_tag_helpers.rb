@@ -33,8 +33,8 @@ module Padrino
         options = args.extract_options!
         bootstrap = options.delete(:bootstrap) if options[:bootstrap]
         args.inject(ActiveSupport::SafeBuffer.new) do |html,kind|
+          next html unless flash[kind]
           flash_text = ActiveSupport::SafeBuffer.new << flash[kind]
-          next html if flash_text.blank?
           flash_text << content_tag(:button, '&times;'.html_safe, {:type => :button, :class => :close, :'data-dismiss' => :alert}) if bootstrap
           html << content_tag(:div, flash_text, { :class => kind }.update(options))
         end
@@ -145,7 +145,8 @@ module Padrino
       def mail_to(email, caption=nil, mail_options={})
         html_options = mail_options.slice!(:cc, :bcc, :subject, :body)
         mail_query = Rack::Utils.build_query(mail_options).gsub(/\+/, '%20').gsub('%40', '@')
-        mail_href = "mailto:#{email}"; mail_href << "?#{mail_query}" if mail_query.present?
+        mail_href = "mailto:#{email}"
+        mail_href << "?#{mail_query}" unless mail_query.empty?
         link_to((caption || email), mail_href, html_options)
       end
 

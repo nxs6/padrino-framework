@@ -178,7 +178,7 @@ module Padrino
       #
       def word_wrap(text, *args)
         options = args.extract_options!
-        unless args.blank?
+        unless args.empty?
           options[:line_width] = args[0] || 80
         end
         options = { :line_width => 80 }.update(options)
@@ -216,7 +216,7 @@ module Padrino
       def highlight(text, words, *args)
         options = { :highlighter => '<strong class="highlight">\1</strong>' }.update(args.extract_options!)
 
-        if text.blank? || words.blank?
+        if text.empty? || words.empty?
           text
         else
           match = Array(words).map { |p| Regexp.escape(p) }.join('|')
