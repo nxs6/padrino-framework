@@ -13,7 +13,7 @@ module Padrino
           fail "FormBuilder object must be present. If there's no object, use a symbol instead (i.e. :user)" unless object
           @options = options
           @namespace = options[:namespace]
-          @model_name = options[:as] || @object.class.to_s.underscore.tr('/', '_')
+          @model_name = options[:as] || Inflections.underscore(@object.class).tr('/', '_')
           nested = options[:nested]
           if @is_nested = nested && (nested_parent = nested[:parent]) && nested_parent.respond_to?(:object)
             @parent_form = nested_parent
@@ -32,7 +32,7 @@ module Padrino
 
         def label(field, options={}, &block)
           options[:id] ||= nil
-          options[:caption] ||= I18n.t("#{model_name}.attributes.#{field}", :count => 1, :default => field.to_s.humanize, :scope => :models) + ': '
+          options[:caption] ||= I18n.t("#{model_name}.attributes.#{field}", :count => 1, :default => Inflections.humanize(field), :scope => :models) + ': '
           @template.label_tag(field_id(field), default_options(field, options), &block)
         end
 
@@ -181,7 +181,7 @@ module Padrino
         # Returns the human name of the field. Look that use builtin I18n.
         #
         def field_human_name(field)
-          I18n.translate("#{object_model_name}.attributes.#{field}", :count => 1, :default => field.to_s.humanize, :scope => :models)
+          I18n.translate("#{object_model_name}.attributes.#{field}", :count => 1, :default => Inflections.humanize(field), :scope => :models)
         end
 
         ##
@@ -227,7 +227,7 @@ module Padrino
         # Returns a record from template instance or create a record of specified class.
         #
         def build_object(symbol)
-          @template.instance_variable_get("@#{symbol}") || symbol.to_s.camelize.constantize.new
+          @template.instance_variable_get("@#{symbol}") || Inflections.constantize(Inflections.camelize(symbol)).new
         end
 
         ##

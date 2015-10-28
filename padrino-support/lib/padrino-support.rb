@@ -6,10 +6,6 @@ require 'active_support/core_ext/hash/indifferent_access'   # params[:foo]
 require 'active_support/core_ext/hash/slice'                # slice
 require 'active_support/core_ext/array/extract_options'     # Array#extract_options!
 
-# Remove these on 0.14:
-require 'active_support/core_ext/hash/reverse_merge'        # reverse_merge
-require 'active_support/core_ext/module/aliasing'           # alias_method_chain
-
 require 'padrino-support/core_ext/string/inflections'
 require 'padrino-support/core_ext/string/colorize'
 require 'padrino-support/core_ext/object_space'
