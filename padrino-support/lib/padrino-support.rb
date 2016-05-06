@@ -1,10 +1,6 @@
 ##
-# This file loads certain extensions required by Padrino from ActiveSupport.
+# This file loads certain extensions required by Padrino.
 #
-require 'active_support/core_ext/hash/keys'                 # symbolize_keys
-require 'active_support/core_ext/hash/slice'                # slice
-
-require 'padrino-support/core_ext/string/inflections'
 require 'padrino-support/core_ext/string/colorize'
 require 'padrino-support/core_ext/object_space'
 require 'padrino-support/file_set'
